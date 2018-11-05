@@ -1,5 +1,6 @@
 #!/usr/bin/env python
 #!/usr/bin/env python
+#This file publishes velocity commands to the cmd_vel topic and reads the odometry data to control the position of the robot
 import rospy
 from geometry_msgs.msg import Twist
 from nav_msgs.msg import Odometry
