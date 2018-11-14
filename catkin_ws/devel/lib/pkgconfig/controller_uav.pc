@@ -1,0 +1,8 @@
+prefix=/home/kushal/catkin_ws/devel
+
+Name: controller_uav
+Description: Description of controller_uav
+Version: 0.0.0
+Cflags: 
+Libs: -L/home/kushal/catkin_ws/devel/lib 
+Requires: 

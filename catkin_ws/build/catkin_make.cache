@@ -1,0 +1,2 @@
+controller:controller_uav
+-DCATKIN_DEVEL_PREFIX=/home/kushal/catkin_ws/devel -DCMAKE_INSTALL_PREFIX=/home/kushal/catkin_ws/install -G Unix Makefiles

@@ -1,0 +1,8 @@
+prefix=/home/kushal/catkin_ws/install
+
+Name: quad_world
+Description: Description of quad_world
+Version: 0.0.0
+Cflags: 
+Libs: -L/home/kushal/catkin_ws/install/lib 
+Requires: 

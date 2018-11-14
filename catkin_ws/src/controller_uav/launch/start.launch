@@ -1,0 +1,17 @@
+<?xml version="1.0"?>
+<launch>
+  <arg name="world_name" default="$(find controller_uav)/worlds/clearpath_playpen.world" />
+  <include file="$(find controller_uav)/launch/world.launch">
+    <arg name="world_name" default="$(arg world_name)"/>
+  </include>
+
+  <group ns="husky">
+    <include file="$(find husky_gazebo)/launch/spawn_husky.launch">   
+    </include>
+  </group>
+  <group ns="uav1">
+    <include file="$(find hector_quadrotor_gazebo)/launch/spawn_quadrotor.launch">
+      <arg name="tf_prefix" value="uav1" />
+    </include>
+  </group>
+</launch>
