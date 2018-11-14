@@ -80,7 +80,7 @@ class HuskyBot:
         goal_pose.pose.pose.position.y = input("Set your y goal: ")
 
         # Please, insert a number slightly greater than 0 (e.g. 0.01).
-        distance_tolerance = input("Set your tolerance: ")
+        distance_tolerance = 0.01
 
         vel_msg = Twist()
 

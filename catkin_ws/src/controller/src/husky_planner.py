@@ -13,19 +13,19 @@ from nav_msgs.msg import Odometry
 from math import pow, atan2, sqrt, atan
 import tf.transformations
 
-class HectorPlanner:
+class HuskyPlanner:
 
     def __init__(self):
         # Creates a node with name 'turtlebot_controller' and make sure it is a
         # unique node (using anonymous=True).
-        rospy.init_node('hector_planner', anonymous=True)
+        rospy.init_node('husky_planner', anonymous=True)
 
         # Publisher which will publish to the topic '/turtle1/cmd_vel'.
-        self.traj_publisher = rospy.Publisher('/hector_traj_sp',Odometry, queue_size=10)
+        self.traj_publisher = rospy.Publisher('/husky_traj_sp',Odometry, queue_size=10)
 	self.traj_sp = Odometry()
         # A subscriber to the topic '/turtle1/pose'. self.update_pose is called
         # when a message of type Pose is received.
-        self.pose_subscriber = rospy.Subscriber('/uav1/ground_truth/state',Odometry, self.update_pose)	
+        self.pose_subscriber = rospy.Subscriber('/odometry/filtered',Odometry, self.update_pose)	
 	
         self.odom = Odometry()
         self.rate = rospy.Rate(0.1)
@@ -68,19 +68,18 @@ class HectorPlanner:
 
     def plan2goal(self):
         """Moves the turtle to the goal."""
-	distance_tolerance = input("Set your tolerance: ")
+
 	#for i in range(1,11,2):
 	 #   for j in range(1,11,2):
           #      self.traj_sp.pose.pose.position.x = i
            #     self.traj_sp.pose.pose.position.y = j
             #    self.traj_sp.pose.pose.position.z = 10
-	i = 0
+	i = 1
 	#while self.euclidean_distance_x(self.traj_sp)>= distance_tolerance or self.euclidean_distance_z(self.traj_sp)>= distance_tolerance or self.euclidean_distance_z(self.traj_sp)>=distance_tolerance:
             # Publishing our vel_msg
 	while True:
-            self.traj_sp.pose.pose.position.x = 0
-            self.traj_sp.pose.pose.position.y = 0
-            self.traj_sp.pose.pose.position.z = i	            
+            self.traj_sp.pose.pose.position.x = i
+            self.traj_sp.pose.pose.position.y = i	            
 	    self.traj_publisher.publish(self.traj_sp)
             # Publish at the desired rate.
             self.rate.sleep()
@@ -89,7 +88,7 @@ class HectorPlanner:
 
 if __name__ == '__main__':
     try:
-        x = HectorPlanner()
+        x = HuskyPlanner()
         x.plan2goal()
     except rospy.ROSInterruptException:
         pass
