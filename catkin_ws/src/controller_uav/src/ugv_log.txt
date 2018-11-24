@@ -1,0 +1,89 @@
+V = 1
+Successors of 1 = [2, 3, 4]
+Considering n = 2
+2 taken in
+Updated V[2] to 1
+Considering n = 3
+3 taken in
+Updated V[3] to 1
+Considering n = 4
+4 taken in
+Updated V[4] to 1
+V = 2
+Successors of 2 = [1, 5, 6, 7]
+Considering n = 1
+Considering n = 5
+5 taken in
+Updated V[5] to 2
+Considering n = 6
+6 taken in
+Updated V[6] to 2
+Considering n = 7
+7 taken in
+Updated V[7] to 2
+V = 5
+Successors of 5 = [2, 8, 9, 10]
+Considering n = 2
+Considering n = 8
+8 taken in
+Updated V[8] to 3
+Considering n = 9
+9 taken in
+Updated V[9] to 3
+Considering n = 10
+10 taken in
+Updated V[10] to 3
+V = 4
+Successors of 4 = [1, 7, 35, 243]
+Considering n = 1
+Considering n = 7
+7 taken in
+Considering n = 35
+35 taken in
+Updated V[35] to 2
+Considering n = 243
+243 taken in
+Updated V[243] to 2
+V = 35
+Successors of 35 = [3, 4, 37, 57, 254]
+Considering n = 3
+3 taken in
+Considering n = 4
+Considering n = 37
+37 taken in
+Updated V[37] to 3
+Considering n = 57
+57 taken in
+Updated V[57] to 3
+Considering n = 254
+254 taken in
+Updated V[254] to 3
+V = 35
+Successors of 35 = [3, 4, 37, 57, 254]
+Considering n = 3
+3 taken in
+Updated V[3] to 1
+Considering n = 4
+4 taken in
+Updated V[4] to 1
+Considering n = 37
+37 taken in
+Updated V[37] to 1
+Considering n = 57
+57 taken in
+Updated V[57] to 1
+Considering n = 254
+254 taken in
+Updated V[254] to 1
+V = 3
+Successors of 3 = [1, 6, 34, 35]
+Considering n = 1
+1 taken in
+Updated V[1] to 2
+Considering n = 6
+6 taken in
+Updated V[6] to 2
+Considering n = 34
+34 taken in
+Updated V[34] to 2
+Considering n = 35

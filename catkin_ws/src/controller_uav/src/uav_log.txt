@@ -1,0 +1,23 @@
+V = 1
+Successors of 1 = [2, 3, 4]
+Considering n = 2
+2 taken in
+Updated V[2] to 1
+Considering n = 3
+3 taken in
+Updated V[3] to 1
+Considering n = 4
+4 taken in
+Updated V[4] to 1
+V = 4
+Successors of 4 = [1, 7, 35, 243]
+Considering n = 1
+Considering n = 7
+7 taken in
+Updated V[7] to 2
+Considering n = 35
+35 taken in
+Updated V[35] to 2
+Considering n = 243
+243 taken in
+Updated V[243] to 2
