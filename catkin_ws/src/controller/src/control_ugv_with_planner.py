@@ -83,7 +83,9 @@ class HuskyBot:
 
 
         vel_msg = Twist()
-
+	vel_msg.linear.x = 0
+        vel_msg.angular.z = 0
+        self.velocity_publisher.publish(vel_msg)
         while True:
 	    goal_pose = self.traj_sp
             # Linear velocity in the x-axis.

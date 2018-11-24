@@ -1,6 +1,7 @@
 <?xml version="1.0"?>
 <launch>
-  <arg name="world_name" default="$(find controller_uav)/worlds/clearpath_playpen.world" />
+  <arg name="world_name" default="$(find controller_uav)/worlds/empty.world" />
+
   <include file="$(find controller_uav)/launch/world.launch">
     <arg name="world_name" default="$(arg world_name)"/>
   </include>
@@ -14,7 +15,6 @@
       <arg name="tf_prefix" value="uav1" />
     </include>
   </group>
-
 
 
 </launch>

@@ -1,17 +1,12 @@
-	# -*- coding: utf-8 -*-
-"""
-Created on Mon Nov  5 16:56:33 2018
-
-@author: kushal
-"""
-
 #!/usr/bin/env python
-#!/usr/bin/env python
+
 import rospy
 from geometry_msgs.msg import Twist
 from nav_msgs.msg import Odometry
 from math import pow, atan2, sqrt, atan
 import tf.transformations
+
+
 
 class HuskyPlanner:
 
@@ -44,7 +39,7 @@ class HuskyPlanner:
         self.traj_sp = data
         self.traj_sp.pose.pose.position.x = round(self.traj_sp.pose.pose.position.x, 4)
         self.traj_sp.pose.pose.position.y = round(self.traj_sp.pose.pose.position.y, 4)
-	self.traj_sp.pose.pose.position.z = round(self.traj_sp.pose.pose.position.z, 4)
+        self.traj_sp.pose.pose.position.z = round(self.traj_sp.pose.pose.position.z, 4)
 
     def euclidean_distance_x(self, goal_pose):
         """Euclidean distance between current pose and the goal."""
@@ -58,6 +53,13 @@ class HuskyPlanner:
         #print(euc)
         return euc
 
+    def euclidean_distance(self, goal_pose):
+        """Euclidean distance between current pose and the goal."""
+        euc = sqrt(pow((goal_pose.pose.pose.position.x - self.odom.pose.pose.position.x), 2) +
+                    pow((goal_pose.pose.pose.position.y - self.odom.pose.pose.position.y), 2))
+        #print(euc)
+        return euc
+
     def euclidean_distance_z(self, goal_pose):
         """Euclidean distance between current pose and the goal."""
         euc = goal_pose.pose.pose.position.z - self.odom.pose.pose.position.z
@@ -66,29 +68,35 @@ class HuskyPlanner:
 	 
 
 
-    def plan2goal(self):
+    def plan2goal(self, path):
         """Moves the turtle to the goal."""
+        self.traj_sp.pose.pose.position.x = path[0][0]
+        self.traj_sp.pose.pose.position.y = path[0][1]	
+        j = 0
+	while(True):
+         self.traj_sp.pose.pose.position.x = path[j][0]
+         self.traj_sp.pose.pose.position.y = path[j][1]
+         self.traj_publisher.publish(self.traj_sp)
+         if self.euclidean_distance(self.traj_sp)<0.2:
+             j +=1
+         if j == len(path):
+             break
+  
+	
 
-	#for i in range(1,11,2):
-	 #   for j in range(1,11,2):
-          #      self.traj_sp.pose.pose.position.x = i
-           #     self.traj_sp.pose.pose.position.y = j
-            #    self.traj_sp.pose.pose.position.z = 10
-	i = 1
 	#while self.euclidean_distance_x(self.traj_sp)>= distance_tolerance or self.euclidean_distance_z(self.traj_sp)>= distance_tolerance or self.euclidean_distance_z(self.traj_sp)>=distance_tolerance:
             # Publishing our vel_msg
-	while True:
-            self.traj_sp.pose.pose.position.x = i
-            self.traj_sp.pose.pose.position.y = i	            
-	    self.traj_publisher.publish(self.traj_sp)
-            # Publish at the desired rate.
-            self.rate.sleep()
-	    i = i + 1
+	#while True:
+            #self.traj_sp.pose.pose.position.x = 
+            #self.traj_sp.pose.pose.position.y = i	            
+	    #self.traj_publisher.publish(self.traj_sp)
+            # Publish at the desired rat
 	rospy.spin()
 
 if __name__ == '__main__':
     try:
+        path = [(1,1,0),(2,2,0),(2,-2,0)]
         x = HuskyPlanner()
-        x.plan2goal()
+        x.plan2goal(path)
     except rospy.ROSInterruptException:
         pass

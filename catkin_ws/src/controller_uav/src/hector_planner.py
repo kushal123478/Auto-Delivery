@@ -68,27 +68,41 @@ class HectorPlanner:
 
     def plan2goal(self):
         """Moves the turtle to the goal."""
-	distance_tolerance = input("Set your tolerance: ")
+        distance_tolerance = 0.1
+        self.traj_sp.pose.pose.position.x = path[0][0]
+        self.traj_sp.pose.pose.position.y = path[0][1]
+        self.traj_sp.pose.pose.position.z = path[0][2]
+        self.traj_publisher.publish(self.traj_sp)
+        j = 0
+	while(True):
+         self.traj_sp.pose.pose.position.x = path[j][0]
+         self.traj_sp.pose.pose.position.y = path[j][1]
+         self.traj_sp.pose.pose.position.z = path[j][2]
+         self.traj_publisher.publish(self.traj_sp)
+         if self.euclidean_distance_x(self.traj_sp)< distance_tolerance and self.euclidean_distance_y(self.traj_sp)<distance_tolerance and self.euclidean_distance_z(self.traj_sp)<distance_tolerance:
+             j +=1
+         if j == len(path):
+             break
 	#for i in range(1,11,2):
 	 #   for j in range(1,11,2):
           #      self.traj_sp.pose.pose.position.x = i
            #     self.traj_sp.pose.pose.position.y = j
             #    self.traj_sp.pose.pose.position.z = 10
-	i = 0
-	#while self.euclidean_distance_x(self.traj_sp)>= distance_tolerance or self.euclidean_distance_z(self.traj_sp)>= distance_tolerance or self.euclidean_distance_z(self.traj_sp)>=distance_tolerance:
+
+#	while self.euclidean_distance_x(self.traj_sp)>= distance_tolerance or self.euclidean_distance_z(self.traj_sp)>= distance_tolerance or self.euclidean_distance_z(self.traj_sp)>=distance_tolerance:
             # Publishing our vel_msg
-	while True:
-            self.traj_sp.pose.pose.position.x = 0
-            self.traj_sp.pose.pose.position.y = 0
-            self.traj_sp.pose.pose.position.z = i	            
-	    self.traj_publisher.publish(self.traj_sp)
-            # Publish at the desired rate.
-            self.rate.sleep()
-	    i = i + 1
+#	while True:
+#            self.traj_sp.pose.pose.position.x = 0
+#            self.traj_sp.pose.pose.position.y = 0
+#            self.traj_sp.pose.pose.position.z = i	            
+#            self.traj_publisher.publish(self.traj_sp)
+#            # Publish at the desired rate.
+#            self.rate.sleep()
 	rospy.spin()
 
 if __name__ == '__main__':
     try:
+        path = [(1,1,1),(2,4,2),(3,6,4),(4,4,4,),(1,1,1)]
         x = HectorPlanner()
         x.plan2goal()
     except rospy.ROSInterruptException:
