@@ -103,12 +103,20 @@ def get_coord_points(path, node_labels):
                 break
     return res
 
+def write_to_file(stuff, txt_file_path):
+    with open(txt_file_path, 'a') as f:
+        for thing in stuff:
+            f.write('{}\t'.format(thing))
+        f.write('\n')
+
 #def main(graph_obj_path):
-graph_path = 'C:\\Users\\HP\\Desktop\\Homeworks\\ARMP\\Project\\Graph.sav'
-ugv_txt_path = 'C:\\Users\\HP\\Desktop\\Homeworks\\ARMP\\Project\\ugv.txt'
-uav_txt_path = 'C:\\Users\\HP\\Desktop\\Homeworks\\ARMP\\Project\\uav.txt'
-ugv_log = 'C:\\Users\\HP\\Desktop\\Homeworks\\ARMP\\Project\\ugv_log.txt'
-uav_log = 'C:\\Users\\HP\\Desktop\\Homeworks\\ARMP\\Project\\uav_log.txt'
+graph_path = 'Graph.sav'
+ugv_txt_path = 'ugv.txt'
+uav_txt_path = 'uav.txt'
+ugv_log = 'ugv_log.txt'
+uav_log = 'uav_log.txt'
+ugv_op_txt_path = 'ugv_op_path.txt'
+uav_op_txt_path = 'uav_op_path.txt'
 costs, neighbours, node_labels, ugv_path, uav_path = load_graph(graph_path, ugv_txt_path, uav_txt_path)
 ugv_op_path = []
 uav_op_path = []
@@ -140,8 +148,11 @@ with open(uav_log, 'a') as log:
 ugv_op_path = get_coord_points(remove_duplicates(ugv_op_path), node_labels)
 uav_op_path = get_coord_points(remove_duplicates(uav_op_path), node_labels)
 
-print (ugv_op_path)
-print (uav_op_path)
+write_to_file(ugv_op_path, ugv_op_txt_path)
+write_to_file(uav_op_path, uav_op_txt_path)
+
+#print (ugv_op_path)
+#print (uav_op_path)
                 
 #if (__name__ == '__main__'):
 #    graph_obj_path = 'C:\\Users\\HP\\Desktop\\Homeworks\\ARMP\\Project\\Graph.sav'
