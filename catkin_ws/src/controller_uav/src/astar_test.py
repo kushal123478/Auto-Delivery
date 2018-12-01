@@ -11,7 +11,7 @@ from grid_3D import Graph
 def get_dist(a, b):
     return ((a[0] - b[0])**2 + (a[1] - b[1])**2 + (a[2] - b[2])**2)**0.5
     
-def find_path(V, B, D, costs, coords, successors, start, end, w, log):
+def plan_path(V, B, D, costs, coords, successors, start, end, w, log):
     O = [start]
     C = []
     V[start] = 0
@@ -29,11 +29,14 @@ def find_path(V, B, D, costs, coords, successors, start, end, w, log):
                     O.append(n)
                 log.write("{} taken in\n".format(n))
                 temp_ctc = costs[(v, n)] + V[v]
-                if (temp_ctc < V[n]):
-                    log.write("Updated V[{}] to {}\n".format(n, temp_ctc))
-                    V[n] = temp_ctc
-                    D[n] = V[n] + (w * get_dist(coords[n], coords[end]) + 1)
-                    B[n] = v
+                try:
+                    if (temp_ctc < V[n]):
+                        log.write("Updated V[{}] to {}\n".format(n, temp_ctc))
+                        V[n] = temp_ctc
+                        D[n] = V[n] + (w * get_dist(coords[n - 1], coords[end - 1]) + 1)
+                        B[n] = v
+                except:
+                       print (n) 
                     
         O.sort(key = D.get)
     return get_path(B, start, end)
@@ -103,57 +106,47 @@ def get_coord_points(path, node_labels):
                 break
     return res
 
-def write_to_file(stuff, txt_file_path):
-    with open(txt_file_path, 'a') as f:
-        for thing in stuff:
-            f.write('{}\t'.format(thing))
-        f.write('\n')
+def do_path_planning(points_to_visit, neighbours, costs, node_labels, log_path):
+    op_path = []
+    with open(log_path, 'a') as log:
+        deleteContent(log)
+        for i in range(len(points_to_visit) - 1):
+            
+            B = {k:None for k in node_labels.values()}
+            V = {key:float('inf') for key in node_labels.values()}
+            D = {key:float('inf') for key in node_labels.values()}
+                    
+            curr_op_path = plan_path(V, B, D, costs, list(node_labels.keys()), neighbours, 
+                                    points_to_visit[i], points_to_visit[i + 1], 1, log)
+            op_path += curr_op_path
+    
+    return op_path
 
-#def main(graph_obj_path):
-graph_path = 'Graph.sav'
-ugv_txt_path = 'ugv.txt'
-uav_txt_path = 'uav.txt'
-ugv_log = 'ugv_log.txt'
-uav_log = 'uav_log.txt'
-ugv_op_txt_path = 'ugv_op_path.txt'
-uav_op_txt_path = 'uav_op_path.txt'
-costs, neighbours, node_labels, ugv_path, uav_path = load_graph(graph_path, ugv_txt_path, uav_txt_path)
-ugv_op_path = []
-uav_op_path = []
+def save_obj(obj, path):
+    with open(path, 'wb') as f:
+        pickle.dump(obj, f, protocol = 2)
 
-with open(ugv_log, 'a') as log:
-    deleteContent(log)
-    for i in range(len(ugv_path) - 1):
-        
-        B = {k:None for k in node_labels.values()}
-        V = {key:float('inf') for key in node_labels.values()}
-        D = {key:float('inf') for key in node_labels.values()}
+def main(graph_path, ugv_txt_path, uav_txt_path, ugv_log, uav_log, 
+         ugv_save_path, uav_save_path):
+    
+    costs, neighbours, node_labels, ugv_path, uav_path = load_graph(graph_path, ugv_txt_path, uav_txt_path)
+    
+    ugv_op_path = do_path_planning(ugv_path, neighbours, costs, node_labels, ugv_log)
+    uav_op_path = do_path_planning(uav_path, neighbours, costs, node_labels, uav_log)
+    
+    ugv_op_path = get_coord_points(remove_duplicates(ugv_op_path), node_labels)
+    uav_op_path = get_coord_points(remove_duplicates(uav_op_path), node_labels)
+    
+    save_obj(ugv_op_path, ugv_save_path)
+    save_obj(uav_op_path, uav_save_path)
                 
-        curr_op_path = find_path(V, B, D, costs, list(node_labels.keys()), neighbours, 
-                                ugv_path[i], ugv_path[i + 1], 1, log)
-        ugv_op_path += curr_op_path
-        
-with open(uav_log, 'a') as log:
-    deleteContent(log)
-    for i in range(len(uav_path) - 1):
-        
-        B = {k:None for k in node_labels.values()}
-        V = {key:float('inf') for key in node_labels.values()}
-        D = {key:float('inf') for key in node_labels.values()}
-                
-        curr_op_path = find_path(V, B, D, costs, list(node_labels.keys()), neighbours, 
-                                uav_path[i], uav_path[i + 1], 1, log)
-        uav_op_path += curr_op_path
-
-ugv_op_path = get_coord_points(remove_duplicates(ugv_op_path), node_labels)
-uav_op_path = get_coord_points(remove_duplicates(uav_op_path), node_labels)
-
-write_to_file(ugv_op_path, ugv_op_txt_path)
-write_to_file(uav_op_path, uav_op_txt_path)
-
-#print (ugv_op_path)
-#print (uav_op_path)
-                
-#if (__name__ == '__main__'):
-#    graph_obj_path = 'C:\\Users\\HP\\Desktop\\Homeworks\\ARMP\\Project\\Graph.sav'
-#    main(graph_obj_path)
+if (__name__ == '__main__'):
+    graph_obj_path = 'Graph.sav'
+    ugv_txt_path = 'ugv.txt'
+    uav_txt_path = 'uav.txt'
+    ugv_log = 'ugv_log.txt'
+    uav_log = 'uav_log.txt'
+    ugv_save_path = 'ugv_op_path.pkl'
+    uav_save_path = 'uav_op_path.pkl'
+    main(graph_obj_path, ugv_txt_path, uav_txt_path, ugv_log, 
+         uav_log, ugv_save_path, uav_save_path)
