@@ -12,6 +12,7 @@ from geometry_msgs.msg import Twist
 from nav_msgs.msg import Odometry
 from math import pow, atan2, sqrt, atan
 import tf.transformations
+import pickle
 
 class HectorPlanner:
 
@@ -22,13 +23,14 @@ class HectorPlanner:
 
         # Publisher which will publish to the topic '/turtle1/cmd_vel'.
         self.traj_publisher = rospy.Publisher('/hector_traj_sp',Odometry, queue_size=10)
-	self.traj_sp = Odometry()
+        self.traj_sp = Odometry()
         # A subscriber to the topic '/turtle1/pose'. self.update_pose is called
         # when a message of type Pose is received.
         self.pose_subscriber = rospy.Subscriber('/uav1/ground_truth/state',Odometry, self.update_pose)	
 	
         self.odom = Odometry()
         self.rate = rospy.Rate(0.1)
+        self.path = []
 
     def update_pose(self, data):
         """Callback function which is called when a new message of type Pose is
@@ -36,7 +38,7 @@ class HectorPlanner:
         self.odom = data
         self.odom.pose.pose.position.x = round(self.odom.pose.pose.position.x, 4)
         self.odom.pose.pose.position.y = round(self.odom.pose.pose.position.y, 4)
-	self.odom.pose.pose.position.z = round(self.odom.pose.pose.position.z, 4)
+        self.odom.pose.pose.position.z = round(self.odom.pose.pose.position.z, 4)
 
     def update_setpoint(self, data):
         """Callback function which is called when a new message of type Pose is
@@ -44,7 +46,7 @@ class HectorPlanner:
         self.traj_sp = data
         self.traj_sp.pose.pose.position.x = round(self.traj_sp.pose.pose.position.x, 4)
         self.traj_sp.pose.pose.position.y = round(self.traj_sp.pose.pose.position.y, 4)
-	self.traj_sp.pose.pose.position.z = round(self.traj_sp.pose.pose.position.z, 4)
+        self.traj_sp.pose.pose.position.z = round(self.traj_sp.pose.pose.position.z, 4)
 
     def euclidean_distance_x(self, goal_pose):
         """Euclidean distance between current pose and the goal."""
@@ -63,33 +65,54 @@ class HectorPlanner:
         euc = goal_pose.pose.pose.position.z - self.odom.pose.pose.position.z
         #print(euc)
         return euc  
-	 
-
+        
+    def get_path(self, filename):
+        with open(filename, 'rb') as f:
+            res = pickle.load(f)
+        return res
 
     def plan2goal(self):
         """Moves the turtle to the goal."""
-	distance_tolerance = input("Set your tolerance: ")
+        distance_tolerance = 0.1
+        self.traj_sp.pose.pose.position.x = self.path[0][0]
+        self.traj_sp.pose.pose.position.y = self.path[0][1]
+        self.traj_sp.pose.pose.position.z = self.path[0][2]
+        self.traj_publisher.publish(self.traj_sp)
+        j = 0
+        while(True):
+            self.traj_sp.pose.pose.position.x = self.path[j][0]
+            self.traj_sp.pose.pose.position.y = self.path[j][1]
+            self.traj_sp.pose.pose.position.z = self.path[j][2]
+            self.traj_publisher.publish(self.traj_sp)
+            if self.euclidean_distance_x(self.traj_sp)< distance_tolerance and self.euclidean_distance_y(self.traj_sp)<distance_tolerance and self.euclidean_distance_z(self.traj_sp)<distance_tolerance:
+                j +=1
+            if j == len(self.path):
+                break
 	#for i in range(1,11,2):
 	 #   for j in range(1,11,2):
           #      self.traj_sp.pose.pose.position.x = i
            #     self.traj_sp.pose.pose.position.y = j
             #    self.traj_sp.pose.pose.position.z = 10
-	i = 0
-	#while self.euclidean_distance_x(self.traj_sp)>= distance_tolerance or self.euclidean_distance_z(self.traj_sp)>= distance_tolerance or self.euclidean_distance_z(self.traj_sp)>=distance_tolerance:
+
+#	while self.euclidean_distance_x(self.traj_sp)>= distance_tolerance or self.euclidean_distance_z(self.traj_sp)>= distance_tolerance or self.euclidean_distance_z(self.traj_sp)>=distance_tolerance:
             # Publishing our vel_msg
-	while True:
-            self.traj_sp.pose.pose.position.x = 0
-            self.traj_sp.pose.pose.position.y = 0
-            self.traj_sp.pose.pose.position.z = i	            
-	    self.traj_publisher.publish(self.traj_sp)
-            # Publish at the desired rate.
-            self.rate.sleep()
-	    i = i + 1
-	rospy.spin()
+#	while True:
+#            self.traj_sp.pose.pose.position.x = 0
+#            self.traj_sp.pose.pose.position.y = 0
+#            self.traj_sp.pose.pose.position.z = i	            
+#            self.traj_publisher.publish(self.traj_sp)
+#            # Publish at the desired rate.
+#            self.rate.sleep()
+        rospy.spin()
 
 if __name__ == '__main__':
+    
     try:
+        
+        uav_pkl_path = 'uav_op_path.pkl'
         x = HectorPlanner()
+        x.path = x.get_path(uav_pkl_path)
         x.plan2goal()
+        
     except rospy.ROSInterruptException:
         pass
