@@ -35,9 +35,10 @@ def parser_world(filename):
 
 	return dict_obj
 
-
-#objects = parser_world('my_world.world')
-#print('Objects:', objects)
+if __name__ == '__main__':
+	
+	objects = parser_world('my_world_2.world')
+	print('Objects:', objects)
 		
 
 

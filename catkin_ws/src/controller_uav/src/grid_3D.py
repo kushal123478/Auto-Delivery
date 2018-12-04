@@ -8,16 +8,47 @@ class Edge():
 		self.node1 = node1
 		self.node2 = node2
 		self.edgeval = edgeval
-
-
+		
 class Graph():
 
 	def __init__(self,nodes= [], edges=[]):
 		self.graph = defaultdict(list)
 		self.nodes = nodes
 		self.edges = edges
+		self.dict_obj = defaultdict(list)
+
+	def update_env_obj(self,dict_obj):
+		self.dict_obj = dict_obj
+
+
+	def checker(self,c):
+
+		for name in self.dict_obj:
+
+			coords = self.dict_obj[name]
+			xmax = coords[0]+0.5
+			xmin = coords[0]-0.5
+			ymax = coords[1]+0.5
+			ymin = coords[1]-0.5
+			zmax = coords[2]+0.5
+			zmin = coords[2]-0.5
+
+			if((c[0]<=xmax and c[0]>=xmin) and (c[1]<=ymax and c[1]>=ymin) and (c[2]<=zmax and c[2]>=zmin)):
+				print('Collision detected at',c)
+				print('Colliding with object',name)
+				return True
+
+		return False
+			
+
 
 	def add_edge(self,u,v,edgeval): # u,v :(x,y,z)
+
+		#Check if any of the nodes lie within the object: If yes, change edgeval = 1000
+		if(self.checker(u) or self.checker(v)):
+			#print('Edgeval updated for collision')
+			#print(u,v)
+			edgeval=1000
 
 		# Update graoh
 		if((u,edgeval) not in self.graph[v]): # Check if the edge already exists
@@ -48,20 +79,20 @@ class Graph():
 
 
 
-def create_graph(grid_resolution, range_max_xy, range_min_xy, range_max_z,range_min_z,edgeval):
+def create_graph(grid_resolution, range_max_xy, range_min_xy, range_max_z,range_min_z,edgeval,diag_edgeval,world_file):
 
+	dict_obj = parser_world(world_file)
+	print('Calling parser ....\n',dict_obj)
+	
 	g = Graph()
+	g.update_env_obj(dict_obj)
 	node_dict = defaultdict(list)
 	
-	#Updating node numbers
-
-	#Iteratively add all edges
-	# Case 1:
-	num_neighbors = 6
 	for z in range(range_min_z,range_max_z):
 		for y in range(range_min_xy, range_max_xy):
 			for x in range(range_min_xy, range_max_xy):
-				if((x+grid_resolution)<range_max_xy):
+				# Along edges of length 1 unit
+				if((x+grid_resolution)<range_max_xy):					
 					g.add_edge((x,y,z),(x+grid_resolution,y,z),edgeval)
 				if((y+grid_resolution)<range_max_xy):
 					g.add_edge((x,y,z),(x,y+grid_resolution,z),edgeval)
@@ -73,28 +104,50 @@ def create_graph(grid_resolution, range_max_xy, range_min_xy, range_max_z,range_
 					g.add_edge((x,y,z),(x,y,z+grid_resolution),edgeval)
 				if((z-grid_resolution)>=range_min_z):
 					g.add_edge((x,y,z),(x,y,z-grid_resolution),edgeval)
+				#Diagonal edges
+				if((x+grid_resolution<range_max_xy) and (y+grid_resolution<range_max_xy)):
+					g.add_edge((x,y,z),(x+grid_resolution,y+grid_resolution,z),diag_edgeval)
+				if((x+grid_resolution<range_max_xy) and (y-grid_resolution>=range_min_xy)):
+					g.add_edge((x,y,z),(x+grid_resolution,y-grid_resolution,z),diag_edgeval)
+				if((x-grid_resolution>=range_min_xy) and (y+grid_resolution<range_max_xy)):
+					g.add_edge((x,y,z),(x+grid_resolution,y-grid_resolution,z),diag_edgeval)
+				if((x-grid_resolution>=range_min_xy) and (y-grid_resolution>=range_min_xy)):
+					g.add_edge((x,y,z),(x-grid_resolution,y-grid_resolution,z),diag_edgeval)
 
 	# save the model to disk
-	filename = 'Graph.sav'
+	filename = 'Graph_world1.sav'
 	pickle.dump(g, open(filename, 'wb'))
 
-	return g.get_edge_list()			
+	
+	print(dict_obj)
 
-def main():
-    edgelist = create_graph(grid_resolution = 1,range_max_xy = 6,range_min_xy = -5,range_max_z = 10, range_min_z = 0,edgeval=1)
-    
-    with open('Grid_3D.txt','w') as f:
-    	for each in edgelist:
-    		print('\n',each)
-    		f.write(str(each))
-    
-    # Parse the world data 
-    #TO DO: Add scaling data
-    dict_obj = parser_world('my_world.world')
-    print('Calling parser ....\n',dict_obj)
-    
-    #for name in dict_obj:
-    	#coords = dict_obj[name]
+	return g	
 
-if (__name__ == '__main__'):
-    main()
+
+if __name__ == '__main__':
+	# Parse the world data to obtain object's data points
+	#TO DO: Add scaling data
+	#dict_obj = parser_world('my_world_2.world')
+	#print('Calling parser ....\n',dict_obj)
+
+	filename = 'my_world.world'
+
+	g = create_graph(grid_resolution = 1,range_max_xy = 6,range_min_xy = -5,range_max_z = 10, range_min_z = 0,edgeval=1,diag_edgeval=1.414,world_file=filename)
+	edgelist = g.get_edge_list()
+
+	#The following code snippet writes graph data to the file
+	with open('Grid_3D_updated_diag_world1.txt','w') as f:
+		for each in edgelist:
+			#print('\n',each)
+			f.write(str(each))
+
+                                                   
+	#print(dict_obj)
+
+
+
+
+
+		
+		
+		
