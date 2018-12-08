@@ -47,7 +47,7 @@ class HuskyBot:
         #print(euc)
         return euc
 
-    def linear_vel(self, goal_pose, constant=0.7):
+    def linear_vel(self, goal_pose, constant=0.2):
         """See video: https://www.youtube.com/watch?v=Qh15Nol5htM."""
         op =  constant * self.euclidean_distance(goal_pose)
         #print(op)
@@ -57,7 +57,7 @@ class HuskyBot:
         """See video: https://www.youtube.com/watch?v=Qh15Nol5htM."""
         return atan2((goal_pose.pose.pose.position.y - self.odom.pose.pose.position.y), (goal_pose.pose.pose.position.x - self.odom.pose.pose.position.x))
 
-    def angular_vel(self, goal_pose, constant=0.5):
+    def angular_vel(self, goal_pose, constant=0.2):
         """See video: https://www.youtube.com/watch?v=Qh15Nol5htM.""" 
         x = self.odom.pose.pose.orientation.x
         y = self.odom.pose.pose.orientation.y
@@ -83,11 +83,10 @@ class HuskyBot:
 
 
         vel_msg = Twist()
-	vel_msg.linear.x = 0
-        vel_msg.angular.z = 0
-        self.velocity_publisher.publish(vel_msg)
+
         while True:
 	    goal_pose = self.traj_sp
+	    print(goal_pose)
             # Linear velocity in the x-axis.
             vel_msg.linear.x = self.linear_vel(goal_pose)
             vel_msg.linear.y = 0

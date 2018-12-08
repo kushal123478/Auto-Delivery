@@ -5,6 +5,7 @@ from geometry_msgs.msg import Twist
 from nav_msgs.msg import Odometry
 from math import pow, atan2, sqrt, atan
 import tf.transformations
+import pickle
 
 
 
@@ -73,14 +74,22 @@ class HuskyPlanner:
         self.traj_sp.pose.pose.position.x = path[0][0]
         self.traj_sp.pose.pose.position.y = path[0][1]	
         j = 0
-	while(True):
-         self.traj_sp.pose.pose.position.x = path[j][0]
-         self.traj_sp.pose.pose.position.y = path[j][1]
-         self.traj_publisher.publish(self.traj_sp)
-         if self.euclidean_distance(self.traj_sp)<0.2:
-             j +=1
-         if j == len(path):
-             break
+        while(True):
+            self.traj_sp.pose.pose.position.x = path[j][0]
+            self.traj_sp.pose.pose.position.y = path[j][1]
+            print("Current setpoint:")
+            print(str(path[j][0]) + '\t' + str(path[j][1]))
+            self.traj_publisher.publish(self.traj_sp)
+            if self.euclidean_distance(self.traj_sp)<0.2:
+                j +=1
+            if j == len(path):
+                break
+        rospy.spin()
+         
+def get_path(path):
+    with open(path, 'rb') as f:
+        res = pickle.load(f)
+    return res
   
 	
 
@@ -91,11 +100,12 @@ class HuskyPlanner:
             #self.traj_sp.pose.pose.position.y = i	            
 	    #self.traj_publisher.publish(self.traj_sp)
             # Publish at the desired rat
-	rospy.spin()
+	
 
 if __name__ == '__main__':
     try:
-        path = [(1,1,0),(2,2,0),(2,-2,0)]
+        file_path = 'ugv_op_path.pkl'
+        path = get_path(file_path)
         x = HuskyPlanner()
         x.plan2goal(path)
     except rospy.ROSInterruptException:

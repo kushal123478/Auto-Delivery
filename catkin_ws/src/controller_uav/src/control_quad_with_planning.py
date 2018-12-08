@@ -1,10 +1,3 @@
-	# -*- coding: utf-8 -*-
-"""
-Created on Mon Nov  5 16:56:33 2018
-
-@author: kushal
-"""
-
 #!/usr/bin/env python
 #!/usr/bin/env python
 import rospy
@@ -68,19 +61,19 @@ class HectorBot:
         #print(euc)
         return euc
 
-    def x_vel(self, goal_pose, constant=0.4):
+    def x_vel(self, goal_pose, constant=0.7):
         """See video: https://www.youtube.com/watch?v=Qh15Nol5htM."""
         op =  constant * self.euclidean_distance_x(goal_pose)
         #print(op)
         return op
         
-    def y_vel(self, goal_pose, constant=0.4):
+    def y_vel(self, goal_pose, constant=0.7):
         """See video: https://www.youtube.com/watch?v=Qh15Nol5htM."""
         op =  constant * self.euclidean_distance_y(goal_pose)
         #print(op)
         return op    
         
-    def z_vel(self, goal_pose, constant=0.4):
+    def z_vel(self, goal_pose, constant=0.7):
         """See video: https://www.youtube.com/watch?v=Qh15Nol5htM."""
         op =  constant * self.euclidean_distance_z(goal_pose)
         #print(op)
