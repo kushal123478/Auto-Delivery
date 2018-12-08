@@ -6,7 +6,7 @@ from nav_msgs.msg import Odometry
 from math import pow, atan2, sqrt, atan
 import tf.transformations
 import pickle
-import time
+
 
 class HectorPlanner:
 
@@ -67,25 +67,22 @@ class HectorPlanner:
 
     def plan2goal(self):
         distance_tolerance = 0.2
-	print(self.path)
-
+        print(self.path)
         self.traj_sp.pose.pose.position.x = self.path[0][0]
         self.traj_sp.pose.pose.position.y = self.path[0][1]
         self.traj_sp.pose.pose.position.z = self.path[0][2]
         self.traj_publisher.publish(self.traj_sp)
+
         j = 1
         while(True):
-	    #print(self.path[j][0])
-	    #print(self.path[j][1])
-	    #print(self.path[j][2])
-	    #print("**********************")
-	    starttime = time.time()
+
             self.traj_sp.pose.pose.position.x = self.path[j][0]
             self.traj_sp.pose.pose.position.y = self.path[j][1]
             self.traj_sp.pose.pose.position.z = self.path[j][2]
             self.traj_publisher.publish(self.traj_sp)
+
             if abs(self.euclidean_distance_x(self.traj_sp))< distance_tolerance and abs(self.euclidean_distance_y(self.traj_sp))<distance_tolerance and abs(self.euclidean_distance_z(self.traj_sp))<distance_tolerance:
-		j +=1
+                j +=1
 		#print('here')
 		#print('Current odom')
 		#print((self.odom.pose.pose.position.x,self.odom.pose.pose.position.y,self.odom.pose.pose.position.z))
@@ -97,14 +94,16 @@ class HectorPlanner:
 	
             if j == len(self.path):
                 break
-	
         rospy.spin()
 
 if __name__ == '__main__':
     
     try:
         
+
         uav_pkl_path = '/home/kushal/catkin_ws/src/controller_uav/src/uav_op_path.pkl'
+
+
         x = HectorPlanner()
         x.path = x.get_path(uav_pkl_path)
         x.plan2goal()

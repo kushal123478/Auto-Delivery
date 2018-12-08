@@ -115,7 +115,9 @@ def create_graph(grid_resolution, range_max_xy, range_min_xy, range_max_z,range_
 					g.add_edge((x,y,z),(x-grid_resolution,y-grid_resolution,z),diag_edgeval)
 
 	# save the model to disk
+
 	filename = 'Graph_world2.sav'
+
 	pickle.dump(g, open(filename, 'wb'))
 
 	
@@ -132,11 +134,13 @@ if __name__ == '__main__':
 
 	filename = 'my_world_2.world'
 
+
 	g = create_graph(grid_resolution = 1,range_max_xy = 6,range_min_xy = -5,range_max_z = 10, range_min_z = 0,edgeval=1,diag_edgeval=1.414,world_file=filename)
 	edgelist = g.get_edge_list()
 
 	#The following code snippet writes graph data to the file
 	with open('Grid_3D_updated_diag_world2.txt','w') as f:
+
 		for each in edgelist:
 			#print('\n',each)
 			f.write(str(each))

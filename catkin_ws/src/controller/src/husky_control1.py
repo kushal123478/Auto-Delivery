@@ -20,9 +20,11 @@ def huskyOdomCallback(message,cargs):
     pub,msg,goal,path = cargs
 
     # Tunable parameters
-    wgain = 12.0 # Gain for the angular velocity [rad/s / rad]
+
+    wgain = 20.0 # Gain for the angular velocity [rad/s / rad]
     vconst = 0.4 # Linear velocity when far away [m/s]
-    distThresh = 0.4  # Distance treshold [m]
+    distThresh = 0.5 # Distance treshold [m]
+
 
     # Generate a simplified pose
     pos = message.pose.pose
@@ -48,7 +50,9 @@ def huskyOdomCallback(message,cargs):
         a=path.pop()
         goal[0]=a[0]
         goal[1]=a[1]
-	goal[2]=a[2]
+
+        goal[2]=a[2]
+
         
     # Publish
     msg.linear.x = v
@@ -60,10 +64,14 @@ def huskyOdomCallback(message,cargs):
     if not(len(path)==0):
         print("Next point: ", path[len(path)-1], "Current goal: ", goal[0], goal[1], goal[2])
 
+
 ########################################
 # Main Script
 # Initialize our node
+
 rospy.init_node('huskycontrol',anonymous=True)
+
+
     
 
 # Setup publisher
@@ -75,8 +83,10 @@ cmdpub = rospy.Publisher('/cmd_vel',geometry_msgs.msg.Twist, queue_size=10)
 # additional parameters to the callback function.
 
 # Set waypoint for Husky to drive to
+
 goal = [0,0,0]  # Goal
 path=get_path('ugv_op_path.pkl')
+
 print(path)
 path.reverse()
 

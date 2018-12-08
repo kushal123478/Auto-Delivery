@@ -21,3 +21,13 @@ http://wiki.ros.org/hector_quadrotor/Tutorials/Quadrotor%20indoor%20SLAM%20demo
 http://www.clearpathrobotics.com/assets/guides/husky/SimulatingHusky.html
 
 Change the distro to kinetic. They are using indigo in these tutorials I think.
+
+Latest Update: The ROS framework is working for both UGV and UAV.
+
+
+#############################################
+Execution instructions:
+1. roslaunch controller_uav start.launch     !!launch hector and husky together in empty world
+2. cd ~/catkin_ws/src/controller_uav/src/
+3. python control_quad_with_planning.py
+4. python hector_planner.py

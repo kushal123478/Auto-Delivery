@@ -82,6 +82,7 @@
     </spherical_coordinates>
     <model name='unit_box_4'>
       <pose frame=''>-7.62875 3.10572 0.5 0 -0 0</pose>
+
       <link name='link'>
         <inertial>
           <mass>1</mass>
@@ -132,6 +133,7 @@
         <gravity>1</gravity>
       </link>
     </model>
+
     <model name='unit_box_6'>
       <pose frame=''>-4.56047 -2.88058 0.5 0 -0 0</pose>
       <link name='link'>
@@ -186,6 +188,7 @@
     </model>
     <model name='unit_box_3_0'>
       <pose frame=''>6.94169 7.42032 0.5 0 -0 0</pose>
+
       <link name='link'>
         <inertial>
           <mass>1</mass>
@@ -237,10 +240,12 @@
       </link>
     </model>
     <state world_name='default'>
+
       <sim_time>681 330000000</sim_time>
       <real_time>16 842394356</real_time>
       <wall_time>1543957597 881022017</wall_time>
       <iterations>16684</iterations>
+
       <model name='ground_plane'>
         <pose frame=''>0 0 0 0 -0 0</pose>
         <scale>1 1 1</scale>
@@ -251,6 +256,7 @@
           <wrench>0 0 0 0 -0 0</wrench>
         </link>
       </model>
+
       <model name='unit_box_0_0'>
         <pose frame=''>4.97393 -4.89194 0.499995 0 1e-05 0</pose>
         <scale>1 1 1</scale>
@@ -289,6 +295,7 @@
           <velocity>0 0 0 0 -0 0</velocity>
           <acceleration>0.010615 -0.006191 -9.78231 0.012424 0.021225 1.8e-05</acceleration>
           <wrench>0.010615 -0.006191 -9.78231 0 -0 0</wrench>
+
         </link>
       </model>
       <light name='sun'>
@@ -297,11 +304,14 @@
     </state>
     <gui fullscreen='0'>
       <camera name='user_camera'>
+
         <pose frame=''>27.2863 -26.9349 15.0353 -0.000351 0.196846 2.22581</pose>
+
         <view_controller>orbit</view_controller>
         <projection_type>perspective</projection_type>
       </camera>
     </gui>
+
     <model name='unit_box_0_0'>
       <pose frame=''>4.97393 -4.89195 0.5 0 -0 0</pose>
       <link name='link'>
@@ -354,5 +364,6 @@
         <gravity>1</gravity>
       </link>
     </model>
+
   </world>
 </sdf>

@@ -80,8 +80,13 @@
       <elevation>0</elevation>
       <heading_deg>0</heading_deg>
     </spherical_coordinates>
+<<<<<<< HEAD
     <model name='unit_box_4'>
       <pose frame=''>-7.62875 3.10572 0.5 0 -0 0</pose>
+=======
+    <model name='unit_box_0'>
+      <pose frame=''>0.320211 4.49698 0.5 0 -0 0</pose>
+>>>>>>> b72a1e3db94e95be954d32bd356d683e8473b8e3
       <link name='link'>
         <inertial>
           <mass>1</mass>
@@ -132,6 +137,7 @@
         <gravity>1</gravity>
       </link>
     </model>
+<<<<<<< HEAD
     <model name='unit_box_6'>
       <pose frame=''>-4.56047 -2.88058 0.5 0 -0 0</pose>
       <link name='link'>
@@ -186,6 +192,10 @@
     </model>
     <model name='unit_box_3_0'>
       <pose frame=''>6.94169 7.42032 0.5 0 -0 0</pose>
+=======
+    <model name='unit_box_1'>
+      <pose frame=''>3.17419 -0.234959 0.5 0 -0 0</pose>
+>>>>>>> b72a1e3db94e95be954d32bd356d683e8473b8e3
       <link name='link'>
         <inertial>
           <mass>1</mass>
@@ -237,10 +247,17 @@
       </link>
     </model>
     <state world_name='default'>
+<<<<<<< HEAD
       <sim_time>664 646000000</sim_time>
       <real_time>645 260755275</real_time>
       <wall_time>1543957319 306163354</wall_time>
       <iterations>558979</iterations>
+=======
+      <sim_time>56 1000000</sim_time>
+      <real_time>64 13384817</real_time>
+      <wall_time>1543700799 61594384</wall_time>
+      <iterations>56001</iterations>
+>>>>>>> b72a1e3db94e95be954d32bd356d683e8473b8e3
       <model name='ground_plane'>
         <pose frame=''>0 0 0 0 -0 0</pose>
         <scale>1 1 1</scale>
@@ -251,16 +268,25 @@
           <wrench>0 0 0 0 -0 0</wrench>
         </link>
       </model>
+<<<<<<< HEAD
       <model name='unit_box_0_0'>
         <pose frame=''>4.97393 -4.89194 0.499995 -1e-05 0 0</pose>
         <scale>1 1 1</scale>
         <link name='link'>
           <pose frame=''>4.97393 -4.89194 0.499995 -1e-05 0 0</pose>
+=======
+      <model name='unit_box_0'>
+        <pose frame=''>0.320211 4.49698 0.499995 -1e-05 0 0</pose>
+        <scale>1 1 1</scale>
+        <link name='link'>
+          <pose frame=''>0.320211 4.49698 0.499995 -1e-05 0 0</pose>
+>>>>>>> b72a1e3db94e95be954d32bd356d683e8473b8e3
           <velocity>0 0 0 0 -0 0</velocity>
           <acceleration>0.004709 0.011055 -9.78158 -0.022108 0.009414 1e-06</acceleration>
           <wrench>0.004709 0.011055 -9.78158 0 -0 0</wrench>
         </link>
       </model>
+<<<<<<< HEAD
       <model name='unit_box_3_0'>
         <pose frame=''>5.00959 4.81574 0.499995 1e-05 -0 0</pose>
         <scale>1 1 1</scale>
@@ -289,6 +315,16 @@
           <velocity>0 0 0 0 -0 0</velocity>
           <acceleration>-0.004709 0.011055 -9.78158 -0.022108 -0.009414 -1e-06</acceleration>
           <wrench>-0.004709 0.011055 -9.78158 0 -0 0</wrench>
+=======
+      <model name='unit_box_1'>
+        <pose frame=''>3.17419 -0.234959 0.5 0 -0 0</pose>
+        <scale>1 1 1</scale>
+        <link name='link'>
+          <pose frame=''>3.17419 -0.234959 0.5 0 -0 0</pose>
+          <velocity>0 0 0 0 -0 0</velocity>
+          <acceleration>-0.004709 -9.78112 9.78158 0.712677 -0.009414 -4.3e-05</acceleration>
+          <wrench>-0.004709 -9.78112 9.78158 0 -0 0</wrench>
+>>>>>>> b72a1e3db94e95be954d32bd356d683e8473b8e3
         </link>
       </model>
       <light name='sun'>
@@ -297,11 +333,16 @@
     </state>
     <gui fullscreen='0'>
       <camera name='user_camera'>
+<<<<<<< HEAD
         <pose frame=''>19.6447 -17.1197 11.1737 -0.000351 0.196846 2.22581</pose>
+=======
+        <pose frame=''>5.9637 -3.94134 2.2374 0 0.275643 2.35619</pose>
+>>>>>>> b72a1e3db94e95be954d32bd356d683e8473b8e3
         <view_controller>orbit</view_controller>
         <projection_type>perspective</projection_type>
       </camera>
     </gui>
+<<<<<<< HEAD
     <model name='unit_box_0_0'>
       <pose frame=''>4.97393 -4.89195 0.5 0 -0 0</pose>
       <link name='link'>
@@ -354,5 +395,7 @@
         <gravity>1</gravity>
       </link>
     </model>
+=======
+>>>>>>> b72a1e3db94e95be954d32bd356d683e8473b8e3
   </world>
 </sdf>

@@ -96,6 +96,7 @@ def remove_duplicates(path):
     for x in path:
         if (x not in res): res.append(x)
     res.append(x)
+
     return res
 
 def get_coord_points(path, node_labels):
@@ -112,12 +113,14 @@ def do_path_planning(points_to_visit, neighbours, costs, node_labels, log_path):
     with open(log_path, 'a') as log:
         deleteContent(log)
         for i in range(len(points_to_visit) - 1):
+
             B = {k:None for k in node_labels.values()}
             V = {key:float('inf') for key in node_labels.values()}
             D = {key:float('inf') for key in node_labels.values()}
                     
             curr_op_path = plan_path(V, B, D, costs, list(node_labels.keys()), neighbours, 
                                     points_to_visit[i], points_to_visit[i + 1], 0, log)
+
             op_path += curr_op_path
     
     return op_path
@@ -142,6 +145,7 @@ def main(graph_path, ugv_txt_path, uav_txt_path, ugv_log, uav_log,
                 
 if (__name__ == '__main__'):
     graph_obj_path = 'Graph_world2.sav'
+
     ugv_txt_path = 'ugv.txt'
     uav_txt_path = 'uav.txt'
     ugv_log = 'ugv_log.txt'
@@ -150,3 +154,4 @@ if (__name__ == '__main__'):
     uav_save_path = 'uav_op_path.pkl'
     main(graph_obj_path, ugv_txt_path, uav_txt_path, ugv_log, 
          uav_log, ugv_save_path, uav_save_path)
+
