@@ -21,9 +21,9 @@ def huskyOdomCallback(message,cargs):
 
     # Tunable parameters
 
-    wgain = 20.0 # Gain for the angular velocity [rad/s / rad]
-    vconst = 0.4 # Linear velocity when far away [m/s]
-    distThresh = 0.5 # Distance treshold [m]
+    wgain = 10.0 # Gain for the angular velocity [rad/s / rad]
+    vconst = 0.3 # Linear velocity when far away [m/s]
+    distThresh = 1 # Distance treshold [m]
 
 
     # Generate a simplified pose
