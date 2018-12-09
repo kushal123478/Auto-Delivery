@@ -26,18 +26,17 @@ class Graph():
 		for name in self.dict_obj:
 
 			coords = self.dict_obj[name]
-			xmax = coords[0]+0.5
-			xmin = coords[0]-0.5
-			ymax = coords[1]+0.5
-			ymin = coords[1]-0.5
-			zmax = coords[2]+0.5
-			zmin = coords[2]-0.5
+			xmax = coords[0]+0.8
+			xmin = coords[0]-0.8
+			ymax = coords[1]+0.8
+			ymin = coords[1]-0.8
+			zmax = coords[2]+4
+			zmin = coords[2]
 
 			if((c[0]<=xmax and c[0]>=xmin) and (c[1]<=ymax and c[1]>=ymin) and (c[2]<=zmax and c[2]>=zmin)):
 				print('Collision detected at',c)
 				print('Colliding with object',name)
 				return True
-
 		return False
 			
 
@@ -135,9 +134,9 @@ if __name__ == '__main__':
 	filename = 'my_world_2.world'
 
 
-	g = create_graph(grid_resolution = 1,range_max_xy = 6,range_min_xy = -5,range_max_z = 10, range_min_z = 0,edgeval=1,diag_edgeval=1.414,world_file=filename)
+	g = create_graph(grid_resolution = 0.5,range_max_xy = 10,range_min_xy = -10,range_max_z = 7, range_min_z = 0,edgeval=0.5,diag_edgeval=0.707,world_file=filename)
 	edgelist = g.get_edge_list()
-
+	#print(edgelist)
 	#The following code snippet writes graph data to the file
 	with open('Grid_3D_updated_diag_world2.txt','w') as f:
 
@@ -146,7 +145,7 @@ if __name__ == '__main__':
 			f.write(str(each))
 
                                                    
-	#print(dict_obj)
+	print(g.dict_obj)
 
 
 

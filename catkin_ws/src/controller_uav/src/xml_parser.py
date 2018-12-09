@@ -4,7 +4,7 @@ from collections import defaultdict
 
 def parser_world(filename):
 	tree = ET.parse(filename)
-	objects = ['ground_plane']
+	objects = ['ground_plane', 'asphalt_plane']
 	root = tree.getroot()
 	print(root)
 	print('Tag',root.tag)

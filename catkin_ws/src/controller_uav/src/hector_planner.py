@@ -66,7 +66,7 @@ class HectorPlanner:
         return res
 
     def plan2goal(self):
-        distance_tolerance = 0.2
+        distance_tolerance = 0.3
         print(self.path)
         self.traj_sp.pose.pose.position.x = self.path[0][0]
         self.traj_sp.pose.pose.position.y = self.path[0][1]

@@ -80,7 +80,7 @@ def str_to_path(txt_file_path, node_labels):
     final_path = []
     with open(txt_file_path, 'r') as f:
         lines = f.readlines()
-    
+    print (lines)
     for node in lines:
         x, y, z = node.split(', ')
         final_path.append(node_labels[(int(x), int(y), int(z))])
